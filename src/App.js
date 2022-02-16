@@ -40,10 +40,10 @@ function App() {
 	};
 	const getLocalvalues = () => {
 		if (localStorage.getItem('calc') === null) {
-			localStorage.setItem('todos', '');
+			localStorage.setItem('calc', '');
 		}
 		if (localStorage.getItem('result') === null) {
-			localStorage.setItem('todos', ([]));
+			localStorage.setItem('result', (''));
 		}
 		const cal = localStorage.getItem('calc');
 		const res = localStorage.getItem('result');
