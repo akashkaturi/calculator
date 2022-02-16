@@ -5,6 +5,7 @@ function App() {
 	const [calc, setCalc] = useState('');
 	const [result, setResult] = useState('');
 	const operators = ['/', '*', '+', '-', '.'];
+	const [hideResult, setHideResult] = useState(false);
 	const updateCalculator = (value) => {
 		if (
 			(operators.includes(value) && calc === '') ||
@@ -13,7 +14,7 @@ function App() {
 			return;
 		}
 		setCalc(calc + value);
-	
+
 		if (!operators.includes(value)) {
 			setResult(eval(calc + value).toString());
 		}
@@ -32,7 +33,7 @@ function App() {
 	};
 	const finalResult = () => {
 		setCalc(result);
-		setResult('');
+		setHideResult(true);
 	};
 	const clearAll = () => {
 		setCalc('');
@@ -43,7 +44,7 @@ function App() {
 			localStorage.setItem('calc', '');
 		}
 		if (localStorage.getItem('result') === null) {
-			localStorage.setItem('result', (''));
+			localStorage.setItem('result', '');
 		}
 		const cal = localStorage.getItem('calc');
 		const res = localStorage.getItem('result');
@@ -51,20 +52,22 @@ function App() {
 		setResult(res);
 	};
 	useEffect(() => {
+		setHideResult(false);
+	}, [result]);
+	useEffect(() => {
 		getLocalvalues();
 	}, []);
 	useEffect(() => {
-		localStorage.setItem('calc', (calc));
-		localStorage.setItem('result', (result));
+		localStorage.setItem('calc', calc);
+		localStorage.setItem('result', result);
 	}, [result, calc]);
-
 	return (
 		<div className='App'>
 			<h1>Simple Calculator React App</h1>
 
 			<div className='calculator'>
 				<div className='display'>
-					{result ? <span>({result}) </span> : ''} {calc || '0'}
+					{result && !hideResult ? <span>({result}) </span> : ''} {calc || '0'}
 				</div>
 				<div className='operators'>
 					<button onClick={() => clearAll()}>AC</button>
